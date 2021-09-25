@@ -67,70 +67,82 @@
         R2,
         //% blockId="L2" block="L2按键"
         L2,
-        //% blockId="Buttons" block="按键(空缺)"
-        Buttons,
-        //% blockId="RX" block="右侧摇杆X的值"
-        RX,
-        //% blockId="RY" block="右侧摇杆Y的值"
-        RY,
-        //% blockId="LX" block="左侧摇杆x的值"
-        LX,
-        //% blockId="LY" block="左侧摇杆Y的值"
-        LY,
+
      };
+
+     export enum PS2ButtonX {
+       //% blockId="RX" block="右侧摇杆X的值"
+       RX,
+       //% blockId="RY" block="右侧摇杆Y的值"
+       RY,
+       //% blockId="LX" block="左侧摇杆x的值"
+       LX,
+       //% blockId="LY" block="左侧摇杆Y的值"
+       LY,
+     };
+
+     //% blockId=robotbit_button_value block="设置PS2摇杆|%b|值"
+    //% weight=99
+    //% blockGap=50
+    //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
+    export function button_value(b: PS2ButtonX): number {
+        if(!connected) return 0x00
+
+        switch (b) {
+            case PS2ButtonX.RX:
+                return pad[2] - 0x80;
+            case PS2ButtonX.RY:
+                return pad[3] - 0x80;
+            case PS2ButtonX.LX:
+                return pad[4] - 0x80;
+            case PS2ButtonX.LY:
+                return pad[5] - 0x80;
+        }
+        return 0;
+    };
 
     //% blockId=robotbit_button_pressed block="设置PS2手柄|%b|按下"
     //% weight=99
     //% blockGap=50
     //% name.fieldEditor="gridpicker" name.fieldOptions.columns=4
-     export function button_pressed(b: PS2Button): number {
-        if(!connected) return 0x00
+     export function button_pressed(b: PS2Button): boolean {
+        if(!connected) return false
 
         switch (b) {
             case PS2Button.Left:
-                return pad[0] & 0x80 ? 0 : 1;
+                return pad[0] & 0x80 ? false: true;
             case PS2Button.Down:
-                return pad[0] & 0x40 ? 0 : 1;
+                return pad[0] & 0x40 ? false: true;
             case PS2Button.Right:
-                return pad[0] & 0x20 ? 0 : 1;
+                return pad[0] & 0x20 ? false: true;
             case PS2Button.Up:
-                return pad[0] & 0x10 ? 0 : 1;
+                return pad[0] & 0x10 ? false: true;
             case PS2Button.Start:
-                return pad[0] & 0x08 ? 0 : 1;
+                return pad[0] & 0x08 ? false: true;
             case PS2Button.Analog_Left:
-                return pad[0] & 0x04 ? 0 : 1;
+                return pad[0] & 0x04 ? false: true;
             case PS2Button.Analog_Right:
-                return pad[0] & 0x02 ? 0 : 1;
+                return pad[0] & 0x02 ? false: true;
             case PS2Button.Select:
-                return pad[0] & 0x01 ? 0 : 1;
+                return pad[0] & 0x01 ? false: true;
             case PS2Button.Square:
-                return pad[1] & 0x80 ? 0 : 1;
+                return pad[1] & 0x80 ? false: true;
             case PS2Button.Cross:
-                return pad[1] & 0x40 ? 0 : 1;
+                return pad[1] & 0x40 ? false: true;
             case PS2Button.Circle:
-                return pad[1] & 0x20 ? 0 : 1;
+                return pad[1] & 0x20 ? false: true;
             case PS2Button.Triangle:
-                return pad[1] & 0x10 ? 0 : 1;
+                return pad[1] & 0x10 ? false: true;
             case PS2Button.R1:
-                return pad[1] & 0x08 ? 0 : 1;
+                return pad[1] & 0x08 ? false: true;
             case PS2Button.L1:
-                return pad[1] & 0x04 ? 0 : 1;
+                return pad[1] & 0x04 ? false: true;
             case PS2Button.R2:
-                return pad[1] & 0x02 ? 0 : 1;
+                return pad[1] & 0x02 ? false: true;
             case PS2Button.L2:
-                return pad[1] & 0x01 ? 0 : 1;
-            case PS2Button.Buttons:
-                return ~((pad[1] << 8) | pad[0]) & 0xffff;
-            case PS2Button.RX:
-                return pad[2] - 0x80;
-            case PS2Button.RY:
-                return pad[3] - 0x80;
-            case PS2Button.LX:
-                return pad[4] - 0x80;
-            case PS2Button.LY:
-                return pad[5] - 0x80;
+                return pad[1] & 0x01 ? false: true;
         }
-        return 0;
+        return false;
     }
 
     function poll(): boolean {
