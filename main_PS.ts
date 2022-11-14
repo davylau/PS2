@@ -5,7 +5,7 @@
     let chipSelect = DigitalPin.P11
     pins.digitalWritePin(chipSelect, 1)
 
-    pins.spiPins(DigitalPin.P13, DigitalPin.P12, DigitalPin.P10)
+    pins.spiPins(DigitalPin.P13, DigitalPin.P12, DigitalPin.P14)
     pins.spiFormat(8, 3)
     pins.spiFrequency(250000)
 
